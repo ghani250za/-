@@ -1,30 +1,31 @@
 <!DOCTYPE html>
-<html lang="ar">
+<html lang="fr" dir="ltr">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Planning Licence 3 — Viewer</title>
 
-  <!-- Tailwind CDN (لا حاجـة لبناء) -->
+  <!-- Tailwind CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
 
-  <!-- خط -->
+  <!-- Police -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
 
   <style>
-    :root { --gap: 10px; }
-    body { font-family: 'Inter', system-ui, Arial, sans-serif; direction: rtl; }
-    /* جدول مرن */
+    body {
+      font-family: 'Inter', system-ui, Arial, sans-serif;
+      direction: ltr;
+      text-align: left;
+    }
     .grid-table { display: grid; gap: 8px; }
     .cell { min-height: 84px; display:flex; align-items:center; justify-content:center; }
     .sticky-left { position: sticky; left: 0; z-index: 20; }
-    /* صغيرات لجمالية */
     .badge { font-size: 11px; padding: 3px 8px; border-radius: 999px; }
   </style>
 
-  <!-- مهم: عدّل هذا ال base لو غيّرت اسم الريبو -->
+  <!-- IMPORTANT: adapte le chemin si tu changes le nom du repo -->
   <base href="/Planning-Licence-3-me-ann-e-/">
 </head>
 <body class="bg-slate-50 text-slate-800 p-6">
@@ -32,24 +33,23 @@
   <main class="max-w-6xl mx-auto">
     <header class="text-center mb-6">
       <h1 class="text-3xl font-bold">📅 Planning Licence 3 — Semestre 1 (2025-2026)</h1>
-      <p class="text-sm text-slate-500 mt-1">اختر مجموعتك لعرض الجدول</p>
+      <p class="text-sm text-slate-500 mt-1">Choisissez votre groupe pour voir l’emploi du temps</p>
     </header>
 
     <section id="controls" class="mb-6 flex justify-center gap-4"></section>
 
     <section id="table-wrap" class="bg-white rounded-2xl p-4 shadow">
-      <!-- الجدول سيُولّد هنا -->
       <div id="schedule-root"></div>
     </section>
 
     <footer class="text-center mt-6 text-sm text-slate-400">
-      تم الإنشاء تلقائياً — يمكنك تعديل البيانات في ملف index.html
+      Généré automatiquement — modifiez les données directement dans <code>index.html</code>.
     </footer>
   </main>
 
   <script>
     /**********************
-     * بيانات الجدول (من مشروعك)
+     * Données de planning
      **********************/
     const SCHEDULES = {
       G1: [
@@ -130,9 +130,6 @@
       '15:00–17:00'
     ];
 
-    /**********************
-     * وظيفة لتوليد جدول سريع
-     **********************/
     function renderGroupButtons(rootEl) {
       const groups = Object.keys(SCHEDULES);
       groups.forEach(g => {
@@ -173,7 +170,7 @@
         wrapper.appendChild(detailP);
       }
 
-      if (isAmphi) wrapper.style.borderLeft = '4px solid #6366f1'; // indigo
+      if (isAmphi) wrapper.style.borderLeft = '4px solid #6366f1';
       if (isOnline) {
         const badge = document.createElement('span');
         badge.className = 'badge bg-blue-100 text-blue-800 mt-2 inline-block';
@@ -186,7 +183,7 @@
 
     function renderSchedule(group) {
       const root = document.getElementById('schedule-root');
-      root.innerHTML = ''; // تفريغ
+      root.innerHTML = '';
 
       const titleRow = document.createElement('div');
       titleRow.className = 'flex items-center justify-between mb-4';
@@ -194,7 +191,6 @@
       backBtn.className = 'flex items-center gap-2 text-sm text-indigo-600 hover:text-indigo-800 font-semibold';
       backBtn.textContent = '◀ Retour';
       backBtn.addEventListener('click', () => {
-        // العودة لشاشة الاختيار
         document.getElementById('controls').style.display = '';
         root.innerHTML = '';
       });
@@ -207,21 +203,16 @@
 
       root.appendChild(titleRow);
 
-      // خريطة schedule
       const schedule = SCHEDULES[group];
       const scheduleMap = buildScheduleMap(schedule);
 
-      // wrapper أفقياً قابل للتمرير
       const wrap = document.createElement('div');
       wrap.className = 'overflow-x-auto';
 
-      // grid: عمود أيمن = أيام، أعمدة أخرى = الأوقات
       const grid = document.createElement('div');
       grid.className = 'min-w-[900px] grid';
-      // أول صف من الخلايا: خلية فارغة ثم أوقات
       grid.style.gridTemplateColumns = `160px repeat(${TIME_SLOTS.length}, minmax(140px,1fr))`;
 
-      // رأس زمني (فارغ في العمود الأيمن)
       const empty = document.createElement('div');
       empty.className = 'sticky-left p-2';
       grid.appendChild(empty);
@@ -233,16 +224,13 @@
         grid.appendChild(cell);
       });
 
-      // صفوف الأيام
       DAYS.forEach(day => {
-        // day header
         const header = document.createElement('div');
         const dc = DAY_COLORS[day] || { background: 'bg-white', text: 'text-slate-800' };
         header.className = `p-2 text-center font-bold text-sm sticky-left ${dc.background} ${dc.text}`;
         header.textContent = day;
         grid.appendChild(header);
 
-        // خلايا الأوقات
         TIME_SLOTS.forEach(time => {
           const key = `${day}||${time}`;
           const course = scheduleMap.get(key);
@@ -258,20 +246,12 @@
       wrap.appendChild(grid);
       root.appendChild(wrap);
 
-      // أخفي controls (الأزرار) عند عرض الجدول
       document.getElementById('controls').style.display = 'none';
     }
 
-    /**********************
-     * تهيئة الصفحة
-     **********************/
     (function init() {
       const ctrl = document.getElementById('controls');
       renderGroupButtons(ctrl);
-
-      // اختيار افتراضي: لا نعرض أي جدول حتى يضغط المستخدم
-      // لكن يمكنك تفعيل عرض مجموعة محددة افتراضياً كالآتي:
-      // renderSchedule('G1');
     })();
   </script>
 </body>
