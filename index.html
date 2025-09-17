@@ -5,70 +5,52 @@
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Planning Licence 3 — Viewer</title>
 
-  <!-- Tailwind CDN -->
+  <!-- Tailwind -->
   <script src="https://cdn.tailwindcss.com"></script>
 
-  <!-- خط -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
-
   <style>
-    body { 
-      font-family: 'Inter', system-ui, Arial, sans-serif; 
-      direction: rtl; /* الصفحة كلها بالعربية */
-    }
-    #schedule-root {
-      direction: ltr; /* الجدول فقط من اليسار لليمين */
-    }
-    .grid-table { display: grid; gap: 8px; }
-    .cell { min-height: 84px; display:flex; align-items:center; justify-content:center; }
+    body { direction: rtl; font-family: system-ui, sans-serif; }
+    #schedule-root { direction: ltr; }
     .sticky-left { position: sticky; left: 0; z-index: 20; }
-    .badge { font-size: 11px; padding: 3px 8px; border-radius: 999px; }
 
-    /* ⚡️ تحسين للهواتف */
-    @media (max-width: 640px) {
-      h1 { font-size: 1.5rem; }
-      #controls button {
-        width: 100%;
-        font-size: 0.9rem;
-      }
-      #table-wrap {
-        padding: 0.5rem;
-      }
-      #schedule-root h2 {
-        font-size: 1rem;
-      }
-      .cell {
-        min-height: 70px;
-        font-size: 0.75rem;
-      }
+    @media (max-width: 768px) {
+      #schedule-root .desktop-view { display: none; }
+      #schedule-root .mobile-view { display: block; }
+    }
+    @media (min-width: 769px) {
+      #schedule-root .desktop-view { display: block; }
+      #schedule-root .mobile-view { display: none; }
     }
   </style>
-
-  <!-- مهم: عدّل هذا ال base لو غيّرت اسم الريبو -->
-  <base href="/Planning-Licence-3-me-ann-e-/">
 </head>
 <body class="bg-slate-50 text-slate-800 p-6">
 
   <main class="max-w-6xl mx-auto">
     <header class="text-center mb-6">
       <h1 class="text-3xl font-bold">📅 Planning Licence 3 — Semestre 1 (2025-2026)</h1>
-      <p class="text-sm text-slate-500 mt-1">اختر مجموعتك لعرض الجدول</p>
+      <p class="text-sm text-slate-500 mt-1">Université d'El Oued</p>
     </header>
 
     <section id="controls" class="mb-6 flex flex-wrap justify-center gap-4"></section>
 
-    <section id="table-wrap" class="bg-white rounded-2xl p-4 shadow overflow-x-auto">
+    <section id="table-wrap" class="bg-white rounded-2xl p-4 shadow">
       <div id="schedule-root"></div>
     </section>
 
     <footer class="text-center mt-6 text-sm text-slate-400">
-      تم الإنشاء تلقائياً — يمكنك تعديل البيانات في ملف index.html
+      Projet open-source — Déployez sur GitHub Pages
     </footer>
   </main>
 
   <script>
+    const DAY_COLORS = {
+      "Dimanche": "bg-red-100 text-red-800",
+      "Lundi": "bg-blue-100 text-blue-800",
+      "Mardi": "bg-green-100 text-green-800",
+      "Mercredi": "bg-yellow-100 text-yellow-800",
+      "Jeudi": "bg-purple-100 text-purple-800",
+    };
+
     const SCHEDULES = {
       G1: [
         ["Dimanche", "09:30–11:00", "CIV – Pr Mesbahi (S41)"],
@@ -91,186 +73,141 @@
         ["Jeudi", "12:30–14:00", "Entrepreneuriat (cours à distance – Dr. Miloudi)"],
       ],
       G2: [
-        ["Dimanche", "09:30–11:00", "Didactique – Dr Ghouli (S42)"],
-        ["Dimanche", "11:00–12:30", "MRS – Dre Meftah (S42)"],
+        ["Dimanche", "09:30–11:00", "MRS – Dre Telhig (S42)"],
+        ["Dimanche", "11:00–12:30", "CIV – Pr Mesbahi (S42)"],
         ["Dimanche", "12:30–14:00", "CIV – Pr Mesbahi (Cours AMPHI A)"],
         ["Lundi", "08:00–09:30", "Didactique – Dr Ghouli (Cours AMPHI A)"],
         ["Lundi", "09:30–11:00", "Littérature – Dre Chihani (Cours AMPHI A)"],
-        ["Lundi", "11:00–12:30", "CIV – Pr Mesbahi (S42)"],
-        ["Lundi", "12:30–14:00", "MRS – Dre Meftah (S42)"],
-        ["Mardi", "08:00–09:30", "Littérature – Dre Chihani (S42)"],
-        ["Mardi", "09:30–11:00", "Atelier – Dre Khelef H (S42)"],
+        ["Lundi", "11:00–12:30", "MRS – Dre Telhig (S42)"],
+        ["Lundi", "12:30–14:00", "Didactique – Dr Ghouli (S42)"],
+        ["Mardi", "09:30–11:00", "Littérature – Dre Chihani (S42)"],
         ["Mardi", "11:00–12:30", "CEO – Dre Badi K (S42)"],
-        ["Mercredi", "08:00–09:30", "Atelier de Littérature – Dre Khelef H (S42)"],
-        ["Mercredi", "09:30–11:00", "Traduction – M. Ferhat (S42)"],
-        ["Mercredi", "11:00–12:30", "Entrepreneuriat (S42)"],
-        ["Mercredi", "12:30–14:00", "Traduction – M. Ferhat (Cours AMPHI A)"],
-        ["Jeudi", "08:00–09:30", "Langue de spé – Dr Chemmar (S42)"],
-        ["Jeudi", "09:30–11:00", "Linguistique – Mme Kobbi (S42)"],
+        ["Mardi", "12:30–14:00", "Entrepreneuriat (S42)"],
+        ["Mercredi", "08:00–09:30", "Langue de spé – Dr Chemmar (S42)"],
+        ["Mercredi", "09:30–11:00", "Linguistique – Mme Kobbi (S42)"],
+        ["Mercredi", "11:00–12:30", "Traduction – M. Ferhat (Cours AMPHI A)"],
+        ["Mercredi", "12:30–14:00", "Atelier – Mme Kobbi (S42)"],
+        ["Jeudi", "08:00–09:30", "Traduction – M. Ferhat (S42)"],
+        ["Jeudi", "09:30–11:00", "Atelier – Mme Kobbi (S42)"],
         ["Jeudi", "11:00–12:30", "Linguistique – Mme Kobbi (Cours AMPHI A)"],
         ["Jeudi", "12:30–14:00", "Entrepreneuriat (cours à distance – Dr. Miloudi)"],
       ],
       G3: [
-        ["Dimanche", "08:00–09:30", "MRS – Pr Mezghouni (S43)"],
-        ["Dimanche", "09:30–11:00", "MRS – Pr Mezghouni (S43)"],
-        ["Dimanche", "11:00–12:30", "Didactique – Dr Ghouli (S43)"],
+        ["Dimanche", "09:30–11:00", "CIV – Pr Mesbahi (S43)"],
+        ["Dimanche", "11:00–12:30", "MRS – Dre Telhig (S43)"],
         ["Dimanche", "12:30–14:00", "CIV – Pr Mesbahi (Cours AMPHI A)"],
         ["Lundi", "08:00–09:30", "Didactique – Dr Ghouli (Cours AMPHI A)"],
         ["Lundi", "09:30–11:00", "Littérature – Dre Chihani (Cours AMPHI A)"],
-        ["Lundi", "12:30–14:00", "Littérature – Dre Chihani (S43)"],
-        ["Lundi", "14:00–15:30", "CIV – Pr Mesbahi (S43)"],
-        ["Mardi", "09:30–11:00", "Atelier – Dre Chihani (S43)"],
-        ["Mardi", "12:30–14:00", "CEO – Dre Badi K (S43)"],
+        ["Lundi", "11:00–12:30", "Didactique – Dr Ghouli (S43)"],
+        ["Lundi", "12:30–14:00", "MRS – Dre Telhig (S43)"],
+        ["Mardi", "09:30–11:00", "CEO – Dre Badi K (S43)"],
+        ["Mardi", "11:00–12:30", "Littérature – Dre Chihani (S43)"],
+        ["Mardi", "12:30–14:00", "Entrepreneuriat (S43)"],
         ["Mercredi", "08:00–09:30", "Linguistique – Mme Kobbi (S43)"],
         ["Mercredi", "09:30–11:00", "Langue de spé – Dr Chemmar (S43)"],
+        ["Mercredi", "11:00–12:30", "Atelier – Mme Kobbi (S43)"],
         ["Mercredi", "12:30–14:00", "Traduction – M. Ferhat (Cours AMPHI A)"],
-        ["Jeudi", "08:00–09:30", "Traduction – M. Ferhat (S43)"],
+        ["Jeudi", "08:00–09:30", "Atelier – Mme Kobbi (S43)"],
+        ["Jeudi", "09:30–11:00", "Traduction – M. Ferhat (S43)"],
         ["Jeudi", "11:00–12:30", "Linguistique – Mme Kobbi (Cours AMPHI A)"],
         ["Jeudi", "12:30–14:00", "Entrepreneuriat (cours à distance – Dr. Miloudi)"],
       ],
     };
 
-    const DAY_COLORS = {
-      Dimanche: { background: 'bg-amber-100', text: 'text-amber-800' },
-      Lundi:    { background: 'bg-orange-100', text: 'text-orange-800' },
-      Mardi:    { background: 'bg-sky-100', text: 'text-sky-800' },
-      Mercredi: { background: 'bg-emerald-100', text: 'text-emerald-800' },
-      Jeudi:    { background: 'bg-slate-200', text: 'text-slate-700' },
-    };
-
     const DAYS = ['Dimanche', 'Lundi', 'Mardi', 'Mercredi', 'Jeudi'];
-    const TIME_SLOTS = [
-      '08:00–09:30',
-      '09:30–11:00',
-      '11:00–12:30',
-      '12:30–14:00',
-      '14:00–15:30',
-      '15:00–17:00'
-    ];
+    const TIME_SLOTS = ['08:00–09:30','09:30–11:00','11:00–12:30','12:30–14:00','14:00–15:30','15:00–17:00'];
 
     function renderGroupButtons(rootEl) {
-      const groups = Object.keys(SCHEDULES);
-      groups.forEach(g => {
+      Object.keys(SCHEDULES).forEach(g => {
         const btn = document.createElement('button');
         btn.textContent = `Groupe ${g}`;
         btn.className = 'px-5 py-3 rounded-xl font-semibold shadow bg-indigo-600 text-white hover:bg-indigo-700 transition';
-        btn.style.minWidth = '130px';
         btn.addEventListener('click', () => renderSchedule(g));
         rootEl.appendChild(btn);
       });
     }
 
     function buildScheduleMap(schedule) {
-      const map = new Map();
+      const map = {};
       schedule.forEach(([day, time, course]) => {
-        map.set(`${day}||${time}`, course);
+        if (!map[day]) map[day] = {};
+        map[day][time] = course;
       });
       return map;
-    }
-
-    function CourseCell(course) {
-      const wrapper = document.createElement('div');
-      wrapper.className = 'bg-white p-2 rounded-lg shadow-sm h-full flex flex-col justify-center text-center ring-1 ring-slate-200';
-
-      const isAmphi = course.toLowerCase().includes('amphi');
-      const isOnline = course.toLowerCase().includes('distance') || course.toLowerCase().includes('en ligne');
-
-      const subjectP = document.createElement('p');
-      subjectP.className = 'font-bold text-sm text-slate-800';
-      const parts = course.split('–');
-      subjectP.textContent = parts[0].trim();
-      wrapper.appendChild(subjectP);
-
-      if (parts.length > 1) {
-        const detailP = document.createElement('p');
-        detailP.className = 'text-xs text-slate-500 mt-1';
-        detailP.textContent = parts.slice(1).join('–').trim();
-        wrapper.appendChild(detailP);
-      }
-
-      if (isAmphi) wrapper.style.borderLeft = '4px solid #6366f1';
-      if (isOnline) {
-        const badge = document.createElement('span');
-        badge.className = 'badge bg-blue-100 text-blue-800 mt-2 inline-block';
-        badge.textContent = 'À distance';
-        wrapper.appendChild(badge);
-      }
-
-      return wrapper;
     }
 
     function renderSchedule(group) {
       const root = document.getElementById('schedule-root');
       root.innerHTML = '';
-
-      const titleRow = document.createElement('div');
-      titleRow.className = 'flex items-center justify-between mb-4 flex-wrap gap-2';
-      const backBtn = document.createElement('button');
-      backBtn.className = 'flex items-center gap-2 text-sm text-indigo-600 hover:text-indigo-800 font-semibold';
-      backBtn.textContent = '◀ Retour';
-      backBtn.addEventListener('click', () => {
-        document.getElementById('controls').style.display = '';
-        root.innerHTML = '';
-      });
-      titleRow.appendChild(backBtn);
-
-      const titleH = document.createElement('h2');
-      titleH.className = 'text-xl font-bold';
-      titleH.textContent = `Groupe ${group}`;
-      titleRow.appendChild(titleH);
-
-      root.appendChild(titleRow);
-
       const schedule = SCHEDULES[group];
       const scheduleMap = buildScheduleMap(schedule);
 
-      const wrap = document.createElement('div');
-      wrap.className = 'overflow-x-auto';
-
+      // Desktop view
+      const gridWrap = document.createElement('div');
+      gridWrap.className = 'desktop-view overflow-x-auto';
       const grid = document.createElement('div');
-      grid.className = 'min-w-[900px] grid text-xs sm:text-sm';
-      grid.style.gridTemplateColumns = `120px repeat(${TIME_SLOTS.length}, minmax(120px,1fr))`;
+      grid.className = 'min-w-[900px] grid';
+      grid.style.gridTemplateColumns = `100px repeat(${TIME_SLOTS.length}, minmax(80px,1fr))`;
 
-      const empty = document.createElement('div');
-      empty.className = 'sticky-left p-2';
-      grid.appendChild(empty);
-
+      grid.appendChild(document.createElement('div'));
       TIME_SLOTS.forEach(time => {
         const cell = document.createElement('div');
-        cell.className = 'p-2 text-center font-bold text-slate-600 border-b-2 border-slate-200';
-        cell.textContent = time.replace('–',' - ');
+        cell.className = 'p-2 text-center text-[10px] font-bold text-slate-600 border-b-2 border-slate-200';
+        cell.textContent = time;
         grid.appendChild(cell);
       });
 
       DAYS.forEach(day => {
         const header = document.createElement('div');
-        const dc = DAY_COLORS[day] || { background: 'bg-white', text: 'text-slate-800' };
-        header.className = `p-2 text-center font-bold text-sm sticky-left ${dc.background} ${dc.text}`;
+        header.className = `p-2 text-center font-bold text-xs sticky-left ${DAY_COLORS[day]||'bg-slate-100'}`;
         header.textContent = day;
         grid.appendChild(header);
 
         TIME_SLOTS.forEach(time => {
-          const key = `${day}||${time}`;
-          const course = scheduleMap.get(key);
           const cell = document.createElement('div');
-          cell.className = `p-1 sm:p-2 border-b border-r border-slate-200 min-h-[80px] sm:min-h-[100px] ${dc.background} bg-opacity-30 flex items-stretch`;
+          cell.className = `p-1 border-b border-r border-slate-200 min-h-[60px] ${(DAY_COLORS[day]||'bg-slate-50')} bg-opacity-30`;
+          const course = scheduleMap[day]?.[time];
           if (course) {
-            cell.appendChild(CourseCell(course));
+            const div = document.createElement('div');
+            div.className = 'bg-white p-2 rounded shadow text-xs text-center';
+            div.textContent = course;
+            cell.appendChild(div);
           }
           grid.appendChild(cell);
         });
       });
 
-      wrap.appendChild(grid);
-      root.appendChild(wrap);
+      gridWrap.appendChild(grid);
+      root.appendChild(gridWrap);
+
+      // Mobile view
+      const mobileWrap = document.createElement('div');
+      mobileWrap.className = 'mobile-view space-y-4';
+      DAYS.forEach(day => {
+        if (!scheduleMap[day]) return;
+        const card = document.createElement('div');
+        card.className = `rounded-xl p-3 shadow-sm ${(DAY_COLORS[day]||'bg-slate-100')}`;
+        const h = document.createElement('h3');
+        h.className = 'font-bold mb-2 text-sm';
+        h.textContent = day;
+        card.appendChild(h);
+        TIME_SLOTS.forEach(time => {
+          const course = scheduleMap[day][time];
+          if (course) {
+            const slot = document.createElement('div');
+            slot.className = 'mb-2 p-2 bg-white rounded-lg shadow text-xs';
+            slot.innerHTML = `<p class="text-slate-600 font-semibold">${time}</p><p>${course}</p>`;
+            card.appendChild(slot);
+          }
+        });
+        mobileWrap.appendChild(card);
+      });
+      root.appendChild(mobileWrap);
 
       document.getElementById('controls').style.display = 'none';
     }
 
-    (function init() {
-      const ctrl = document.getElementById('controls');
-      renderGroupButtons(ctrl);
-    })();
+    renderGroupButtons(document.getElementById('controls'));
   </script>
 </body>
 </html>
