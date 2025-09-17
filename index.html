@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Planning Licence 3 — Viewer</title>
+
+  <!-- Tailwind CDN (لا حاجـة لبناء) -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- خط -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    :root { --gap: 10px; }
+    body { font-family: 'Inter', system-ui, Arial, sans-serif; direction: rtl; }
+    /* جدول مرن */
+    .grid-table { display: grid; gap: 8px; }
+    .cell { min-height: 84px; display:flex; align-items:center; justify-content:center; }
+    .sticky-left { position: sticky; left: 0; z-index: 20; }
+    /* صغيرات لجمالية */
+    .badge { font-size: 11px; padding: 3px 8px; border-radius: 999px; }
+  </style>
+
+  <!-- مهم: عدّل هذا ال base لو غيّرت اسم الريبو -->
+  <base href="/Planning-Licence-3-me-ann-e-/">
+</head>
+<body class="bg-slate-50 text-slate-800 p-6">
+
+  <main class="max-w-6xl mx-auto">
+    <header class="text-center mb-6">
+      <h1 class="text-3xl font-bold">📅 Planning Licence 3 — Semestre 1 (2025-2026)</h1>
+      <p class="text-sm text-slate-500 mt-1">اختر مجموعتك لعرض الجدول</p>
+    </header>
+
+    <section id="controls" class="mb-6 flex justify-center gap-4"></section>
+
+    <section id="table-wrap" class="bg-white rounded-2xl p-4 shadow">
+      <!-- الجدول سيُولّد هنا -->
+      <div id="schedule-root"></div>
+    </section>
+
+    <footer class="text-center mt-6 text-sm text-slate-400">
+      تم الإنشاء تلقائياً — يمكنك تعديل البيانات في ملف index.html
+    </footer>
+  </main>
+
+  <script>
+    /**********************
+     * بيانات الجدول (من مشروعك)
+     **********************/
+    const SCHEDULES = {
+      G1: [
+        ["Dimanche", "09:30–11:00", "CIV – Pr Mesbahi (S41)"],
+        ["Dimanche", "11:00–12:30", "MRS – Dre Telhig (S41)"],
+        ["Dimanche", "12:30–14:00", "CIV – Pr Mesbahi (Cours AMPHI A)"],
+        ["Lundi", "08:00–09:30", "Didactique – Dr Ghouli (Cours AMPHI A)"],
+        ["Lundi", "09:30–11:00", "Littérature – Dre Chihani (Cours AMPHI A)"],
+        ["Lundi", "11:00–12:30", "Didactique – Dr Ghouli (S41)"],
+        ["Lundi", "12:30–14:00", "MRS – Dre Telhig (S41)"],
+        ["Mardi", "09:30–11:00", "CEO – Dre Badi K (S41)"],
+        ["Mardi", "11:00–12:30", "Littérature – Dre Chihani (S41)"],
+        ["Mardi", "12:30–14:00", "Entrepreneuriat (S41)"],
+        ["Mercredi", "08:00–09:30", "Linguistique – Mme Kobbi (S41)"],
+        ["Mercredi", "09:30–11:00", "Langue de spé – Dr Chemmar (S41)"],
+        ["Mercredi", "11:00–12:30", "Atelier – Mme Kobbi (S41)"],
+        ["Mercredi", "12:30–14:00", "Traduction – M. Ferhat (Cours AMPHI A)"],
+        ["Jeudi", "08:00–09:30", "Atelier – Mme Kobbi (S41)"],
+        ["Jeudi", "09:30–11:00", "Traduction – M. Ferhat (S41)"],
+        ["Jeudi", "11:00–12:30", "Linguistique – Mme Kobbi (Cours AMPHI A)"],
+        ["Jeudi", "12:30–14:00", "Entrepreneuriat (cours à distance – Dr. Miloudi)"],
+      ],
+      G2: [
+        ["Dimanche", "09:30–11:00", "Didactique – Dr Ghouli (S42)"],
+        ["Dimanche", "11:00–12:30", "MRS – Dre Meftah (S42)"],
+        ["Dimanche", "12:30–14:00", "CIV – Pr Mesbahi (Cours AMPHI A)"],
+        ["Lundi", "08:00–09:30", "Didactique – Dr Ghouli (Cours AMPHI A)"],
+        ["Lundi", "09:30–11:00", "Littérature – Dre Chihani (Cours AMPHI A)"],
+        ["Lundi", "11:00–12:30", "CIV – Pr Mesbahi (S42)"],
+        ["Lundi", "12:30–14:00", "MRS – Dre Meftah (S42)"],
+        ["Mardi", "08:00–09:30", "Littérature – Dre Chihani (S42)"],
+        ["Mardi", "09:30–11:00", "Atelier – Dre Khelef H (S42)"],
+        ["Mardi", "11:00–12:30", "CEO – Dre Badi K (S42)"],
+        ["Mercredi", "08:00–09:30", "Atelier de Littérature – Dre Khelef H (S42)"],
+        ["Mercredi", "09:30–11:00", "Traduction – M. Ferhat (S42)"],
+        ["Mercredi", "11:00–12:30", "Entrepreneuriat (S42)"],
+        ["Mercredi", "12:30–14:00", "Traduction – M. Ferhat (Cours AMPHI A)"],
+        ["Jeudi", "08:00–09:30", "Langue de spé – Dr Chemmar (S42)"],
+        ["Jeudi", "09:30–11:00", "Linguistique – Mme Kobbi (S42)"],
+        ["Jeudi", "11:00–12:30", "Linguistique – Mme Kobbi (Cours AMPHI A)"],
+        ["Jeudi", "12:30–14:00", "Entrepreneuriat (cours à distance – Dr. Miloudi)"],
+      ],
+      G3: [
+        ["Dimanche", "08:00–09:30", "MRS – Pr Mezghouni (S43)"],
+        ["Dimanche", "09:30–11:00", "MRS – Pr Mezghouni (S43)"],
+        ["Dimanche", "11:00–12:30", "Didactique – Dr Ghouli (S43)"],
+        ["Dimanche", "12:30–14:00", "CIV – Pr Mesbahi (Cours AMPHI A)"],
+        ["Lundi", "08:00–09:30", "Didactique – Dr Ghouli (Cours AMPHI A)"],
+        ["Lundi", "09:30–11:00", "Littérature – Dre Chihani (Cours AMPHI A)"],
+        ["Lundi", "12:30–14:00", "Littérature – Dre Chihani (S43)"],
+        ["Lundi", "14:00–15:30", "CIV – Pr Mesbahi (S43)"],
+        ["Mardi", "09:30–11:00", "Atelier – Dre Chihani (S43)"],
+        ["Mardi", "12:30–14:00", "CEO – Dre Badi K (S43)"],
+        ["Mercredi", "08:00–09:30", "Linguistique – Mme Kobbi (S43)"],
+        ["Mercredi", "09:30–11:00", "Langue de spé – Dr Chemmar (S43)"],
+        ["Mercredi", "12:30–14:00", "Traduction – M. Ferhat (Cours AMPHI A)"],
+        ["Jeudi", "08:00–09:30", "Traduction – M. Ferhat (S43)"],
+        ["Jeudi", "11:00–12:30", "Linguistique – Mme Kobbi (Cours AMPHI A)"],
+        ["Jeudi", "12:30–14:00", "Entrepreneuriat (cours à distance – Dr. Miloudi)"],
+      ],
+    };
+
+    const DAY_COLORS = {
+      Dimanche: { background: 'bg-amber-100', text: 'text-amber-800' },
+      Lundi:    { background: 'bg-orange-100', text: 'text-orange-800' },
+      Mardi:    { background: 'bg-sky-100', text: 'text-sky-800' },
+      Mercredi: { background: 'bg-emerald-100', text: 'text-emerald-800' },
+      Jeudi:    { background: 'bg-slate-200', text: 'text-slate-700' },
+    };
+
+    const DAYS = ['Dimanche', 'Lundi', 'Mardi', 'Mercredi', 'Jeudi'];
+    const TIME_SLOTS = [
+      '08:00–09:30',
+      '09:30–11:00',
+      '11:00–12:30',
+      '12:30–14:00',
+      '14:00–15:30',
+      '15:00–17:00'
+    ];
+
+    /**********************
+     * وظيفة لتوليد جدول سريع
+     **********************/
+    function renderGroupButtons(rootEl) {
+      const groups = Object.keys(SCHEDULES);
+      groups.forEach(g => {
+        const btn = document.createElement('button');
+        btn.textContent = `Groupe ${g}`;
+        btn.className = 'px-5 py-3 rounded-xl font-semibold shadow bg-indigo-600 text-white hover:bg-indigo-700 transition';
+        btn.style.minWidth = '130px';
+        btn.addEventListener('click', () => renderSchedule(g));
+        rootEl.appendChild(btn);
+      });
+    }
+
+    function buildScheduleMap(schedule) {
+      const map = new Map();
+      schedule.forEach(([day, time, course]) => {
+        map.set(`${day}||${time}`, course);
+      });
+      return map;
+    }
+
+    function CourseCell(course) {
+      const wrapper = document.createElement('div');
+      wrapper.className = 'bg-white p-2 rounded-lg shadow-sm h-full flex flex-col justify-center text-center ring-1 ring-slate-200';
+
+      const isAmphi = course.toLowerCase().includes('amphi');
+      const isOnline = course.toLowerCase().includes('distance') || course.toLowerCase().includes('en ligne');
+
+      const subjectP = document.createElement('p');
+      subjectP.className = 'font-bold text-sm text-slate-800';
+      const parts = course.split('–');
+      subjectP.textContent = parts[0].trim();
+      wrapper.appendChild(subjectP);
+
+      if (parts.length > 1) {
+        const detailP = document.createElement('p');
+        detailP.className = 'text-xs text-slate-500 mt-1';
+        detailP.textContent = parts.slice(1).join('–').trim();
+        wrapper.appendChild(detailP);
+      }
+
+      if (isAmphi) wrapper.style.borderLeft = '4px solid #6366f1'; // indigo
+      if (isOnline) {
+        const badge = document.createElement('span');
+        badge.className = 'badge bg-blue-100 text-blue-800 mt-2 inline-block';
+        badge.textContent = 'À distance';
+        wrapper.appendChild(badge);
+      }
+
+      return wrapper;
+    }
+
+    function renderSchedule(group) {
+      const root = document.getElementById('schedule-root');
+      root.innerHTML = ''; // تفريغ
+
+      const titleRow = document.createElement('div');
+      titleRow.className = 'flex items-center justify-between mb-4';
+      const backBtn = document.createElement('button');
+      backBtn.className = 'flex items-center gap-2 text-sm text-indigo-600 hover:text-indigo-800 font-semibold';
+      backBtn.textContent = '◀ Retour';
+      backBtn.addEventListener('click', () => {
+        // العودة لشاشة الاختيار
+        document.getElementById('controls').style.display = '';
+        root.innerHTML = '';
+      });
+      titleRow.appendChild(backBtn);
+
+      const titleH = document.createElement('h2');
+      titleH.className = 'text-xl font-bold';
+      titleH.textContent = `Groupe ${group}`;
+      titleRow.appendChild(titleH);
+
+      root.appendChild(titleRow);
+
+      // خريطة schedule
+      const schedule = SCHEDULES[group];
+      const scheduleMap = buildScheduleMap(schedule);
+
+      // wrapper أفقياً قابل للتمرير
+      const wrap = document.createElement('div');
+      wrap.className = 'overflow-x-auto';
+
+      // grid: عمود أيمن = أيام، أعمدة أخرى = الأوقات
+      const grid = document.createElement('div');
+      grid.className = 'min-w-[900px] grid';
+      // أول صف من الخلايا: خلية فارغة ثم أوقات
+      grid.style.gridTemplateColumns = `160px repeat(${TIME_SLOTS.length}, minmax(140px,1fr))`;
+
+      // رأس زمني (فارغ في العمود الأيمن)
+      const empty = document.createElement('div');
+      empty.className = 'sticky-left p-2';
+      grid.appendChild(empty);
+
+      TIME_SLOTS.forEach(time => {
+        const cell = document.createElement('div');
+        cell.className = 'p-2 text-center text-xs font-bold text-slate-600 border-b-2 border-slate-200';
+        cell.textContent = time.replace('–',' - ');
+        grid.appendChild(cell);
+      });
+
+      // صفوف الأيام
+      DAYS.forEach(day => {
+        // day header
+        const header = document.createElement('div');
+        const dc = DAY_COLORS[day] || { background: 'bg-white', text: 'text-slate-800' };
+        header.className = `p-2 text-center font-bold text-sm sticky-left ${dc.background} ${dc.text}`;
+        header.textContent = day;
+        grid.appendChild(header);
+
+        // خلايا الأوقات
+        TIME_SLOTS.forEach(time => {
+          const key = `${day}||${time}`;
+          const course = scheduleMap.get(key);
+          const cell = document.createElement('div');
+          cell.className = `p-2 border-b border-r border-slate-200 min-h-[100px] ${dc.background} bg-opacity-30 flex items-stretch`;
+          if (course) {
+            cell.appendChild(CourseCell(course));
+          }
+          grid.appendChild(cell);
+        });
+      });
+
+      wrap.appendChild(grid);
+      root.appendChild(wrap);
+
+      // أخفي controls (الأزرار) عند عرض الجدول
+      document.getElementById('controls').style.display = 'none';
+    }
+
+    /**********************
+     * تهيئة الصفحة
+     **********************/
+    (function init() {
+      const ctrl = document.getElementById('controls');
+      renderGroupButtons(ctrl);
+
+      // اختيار افتراضي: لا نعرض أي جدول حتى يضغط المستخدم
+      // لكن يمكنك تفعيل عرض مجموعة محددة افتراضياً كالآتي:
+      // renderSchedule('G1');
+    })();
+  </script>
+</body>
+</html>
