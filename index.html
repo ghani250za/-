@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="fr" dir="ltr">
+<html lang="ar">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
@@ -8,16 +8,18 @@
   <!-- Tailwind CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
 
-  <!-- Police -->
+  <!-- خط -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
 
   <style>
-    body {
-      font-family: 'Inter', system-ui, Arial, sans-serif;
-      direction: ltr;
-      text-align: left;
+    body { 
+      font-family: 'Inter', system-ui, Arial, sans-serif; 
+      direction: rtl; /* الصفحة كلها بالعربية */
+    }
+    #schedule-root {
+      direction: ltr; /* الجدول فقط من اليسار لليمين */
     }
     .grid-table { display: grid; gap: 8px; }
     .cell { min-height: 84px; display:flex; align-items:center; justify-content:center; }
@@ -25,7 +27,7 @@
     .badge { font-size: 11px; padding: 3px 8px; border-radius: 999px; }
   </style>
 
-  <!-- IMPORTANT: adapte le chemin si tu changes le nom du repo -->
+  <!-- مهم: عدّل هذا ال base لو غيّرت اسم الريبو -->
   <base href="/Planning-Licence-3-me-ann-e-/">
 </head>
 <body class="bg-slate-50 text-slate-800 p-6">
@@ -33,7 +35,7 @@
   <main class="max-w-6xl mx-auto">
     <header class="text-center mb-6">
       <h1 class="text-3xl font-bold">📅 Planning Licence 3 — Semestre 1 (2025-2026)</h1>
-      <p class="text-sm text-slate-500 mt-1">Choisissez votre groupe pour voir l’emploi du temps</p>
+      <p class="text-sm text-slate-500 mt-1">اختر مجموعتك لعرض الجدول</p>
     </header>
 
     <section id="controls" class="mb-6 flex justify-center gap-4"></section>
@@ -43,14 +45,11 @@
     </section>
 
     <footer class="text-center mt-6 text-sm text-slate-400">
-      Généré automatiquement — modifiez les données directement dans <code>index.html</code>.
+      تم الإنشاء تلقائياً — يمكنك تعديل البيانات في ملف index.html
     </footer>
   </main>
 
   <script>
-    /**********************
-     * Données de planning
-     **********************/
     const SCHEDULES = {
       G1: [
         ["Dimanche", "09:30–11:00", "CIV – Pr Mesbahi (S41)"],
