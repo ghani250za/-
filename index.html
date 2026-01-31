@@ -3,12 +3,10 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Planning Licence 3 — Viewer</title>
+  <title>Planning Licence 3 — Semestre 2</title>
 
-  <!-- Tailwind CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
 
-  <!-- خط -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
@@ -23,8 +21,8 @@
 
   <main class="max-w-6xl mx-auto">
     <header class="text-center mb-6">
-      <h1 class="text-2xl sm:text-3xl font-bold">📅 Planning Licence 3 — Semestre 1 (2025-2026)</h1>
-      <p class="text-sm text-slate-500 mt-1">اختر مجموعتك لعرض الجدول</p>
+      <h1 class="text-2xl sm:text-3xl font-bold">📅 Planning Licence 3 — Semestre 2 (2025-2026)</h1>
+      <p class="text-sm text-slate-500 mt-1">Université d'El Oued — Français</p>
     </header>
 
     <section id="controls" class="mb-6 flex flex-wrap justify-center gap-3"></section>
@@ -34,70 +32,74 @@
     </section>
 
     <footer class="text-center mt-6 text-sm text-slate-400">
-      تم الإنشاء تلقائياً — يمكنك تعديل البيانات في ملف index.html<br>
-      <span class="font-semibold text-slate-500">By: abd elghani amrani ✍️</span>
+      تم التحديث بناءً على جدول السداسي الثاني<br>
+      <span class="font-semibold text-slate-500">تمت البرمجة بواسطة: abd elghani amrani ✍️</span>
     </footer>
   </main>
 
   <script>
     const SCHEDULES = {
       G1: [
-        ["Dimanche", "09:30–11:00", "CIV – Pr Mesbahi (S41)"],
-        ["Dimanche", "11:00–12:30", "MRS – Dre Telhig (S41)"],
+        ["Dimanche", "09:30–11:00", "CIV – Pr Mesbahi (S 41)"],
+        ["Dimanche", "11:00–12:30", "MRS – Dre Telhig (S 40)"],
         ["Dimanche", "12:30–14:00", "CIV – Pr Mesbahi (Cours AMPHI A)"],
+        
         ["Lundi", "08:00–09:30", "Didactique – Dr Ghouli (Cours AMPHI A)"],
-        ["Lundi", "09:30–11:00", "Littérature – Dre Chihani (Cours AMPHI A)"],
-        ["Lundi", "11:00–12:30", "Didactique – Dr Ghouli (S41)"],
-        ["Lundi", "12:30–14:00", "MRS – Dre Telhig (S41)"],
-        ["Mardi", "09:30–11:00", "CEO – Dre Badi K (S41)"],
-        ["Mardi", "11:00–12:30", "Littérature – Dre Chihani (S41)"],
-        ["Mardi", "12:30–14:00", "Entrepreneuriat (S41)"],
-        ["Mercredi", "08:00–09:30", "Linguistique – Mme Kobbi (S41)"],
-        ["Mercredi", "09:30–11:00", "Langue de spé – Dr Chemmar (S41)"],
-        ["Mercredi", "11:00–12:30", "Atelier – Mme Kobbi (S41)"],
-        ["Mercredi", "12:30–14:00", "Traduction – M. Ferhat (Cours AMPHI A)"],
-        ["Jeudi", "08:00–09:30", "Atelier – Mme Kobbi (S41)"],
-        ["Jeudi", "09:30–11:00", "Traduction – M. Ferhat (S41)"],
-        ["Jeudi", "11:00–12:30", "Linguistique – Mme Kobbi (Cours AMPHI A)"],
-        ["Jeudi", "12:30–14:00", "Entrepreneuriat (cours à distance – Dr. Miloudi)"],
+        ["Lundi", "09:30–11:00", "C.E.O – Dr Adaika (S 41)"],
+        ["Lundi", "11:00–12:30", "Didactique – Dr Ghouli (S 41)"],
+        ["Lundi", "12:30–14:00", "MRS – Dre Telhig (S 40)"],
+
+        ["Mardi", "08:00–09:30", "Littérature – Dre Chihani (Cours AMPHI A)"],
+        ["Mardi", "09:30–11:00", "Linguistique – Mme Kobbi (S 40)"],
+        ["Mardi", "11:00–12:30", "Littérature – Dre Chihani (S 41)"],
+        ["Mardi", "12:30–14:00", "Atelier de L – Mme Kobbi (S 40)"],
+        ["Mardi", "14:00–15:30", "Langue de spé – Dr Chemmar (S 41)"],
+
+        ["Mercredi", "09:30–11:00", "Traduction – M. Ferhat (S 41)"],
+        ["Mercredi", "11:00–12:30", "Atelier de L – Mme Kobbi (S 41)"],
       ],
       G2: [
-        ["Dimanche", "09:30–11:00", "Didactique – Dr Ghouli (S42)"],
-        ["Dimanche", "11:00–12:30", "MRS – Dre Meftah (S42)"],
+        ["Dimanche", "08:00–09:30", "MRS – Dre Meftah (S 39)"],
+        ["Dimanche", "09:30–11:00", "Didactique – Dr Ghouli (S 42)"],
+        ["Dimanche", "11:00–12:30", "Atelier de L – M Guaouaoua (S 41)"],
         ["Dimanche", "12:30–14:00", "CIV – Pr Mesbahi (Cours AMPHI A)"],
+
         ["Lundi", "08:00–09:30", "Didactique – Dr Ghouli (Cours AMPHI A)"],
-        ["Lundi", "09:30–11:00", "Littérature – Dre Chihani (Cours AMPHI A)"],
-        ["Lundi", "11:00–12:30", "CIV – Pr Mesbahi (S42)"],
-        ["Lundi", "12:30–14:00", "MRS – Dre Meftah (S42)"],
-        ["Mardi", "08:00–09:30", "Littérature – Dre Chihani (S42)"],
-        ["Mardi", "09:30–11:00", "Atelier – Dre Khelef H (S42)"],
-        ["Mardi", "11:00–12:30", "CEO – Dre Badi K (S42)"],
-        ["Mercredi", "08:00–09:30", "Atelier de Littérature – Dre Khelef H (S42)"],
-        ["Mercredi", "09:30–11:00", "Traduction – M. Ferhat (S42)"],
-        ["Mercredi", "11:00–12:30", "Entrepreneuriat (S42)"],
-        ["Mercredi", "12:30–14:00", "Traduction – M. Ferhat (Cours AMPHI A)"],
-        ["Jeudi", "08:00–09:30", "Langue de spé – Dr Chemmar (S42)"],
-        ["Jeudi", "09:30–11:00", "Linguistique – Mme Kobbi (S42)"],
-        ["Jeudi", "11:00–12:30", "Linguistique – Mme Kobbi (Cours AMPHI A)"],
-        ["Jeudi", "12:30–14:00", "Entrepreneuriat (cours à distance – Dr. Miloudi)"],
+        ["Lundi", "09:30–11:00", "Littérature – Dre Chihani (S 42)"],
+        ["Lundi", "11:00–12:30", "CIV – Pr Mesbahi (S 42)"],
+        ["Lundi", "12:30–14:00", "MRS – Dre Meftah (S 41)"],
+        ["Lundi", "14:00–15:30", "Traduction – Dr Berra Bensalem (Cours AMPHI A)"],
+
+        ["Mardi", "08:00–09:30", "Littérature – Dre Chihani (Cours AMPHI A)"],
+        ["Mardi", "09:30–11:00", "Traduction – M. Ferhat (S 41)"],
+        ["Mardi", "11:00–12:30", "Linguistique – Mme Kobbi (S 42)"],
+        ["Mardi", "12:30–14:00", "Traduction – M. Ferhat (S 43)"],
+
+        ["Mercredi", "08:00–09:30", "C.E.O – Dre Adaika (S 42)"],
+        ["Mercredi", "09:30–11:00", "Langue de spé – Dr Chemmar (S 42)"],
+        ["Mercredi", "11:00–12:30", "Atelier de L – M Guaouaoua (S 42)"],
+        ["Mercredi", "12:30–14:00", "Linguistique – M. Leghrissi (Cours AMPHI A)"],
+        ["Mercredi", "14:00–15:30", "Entreprenariat – Dr Adaika (Cours à distance)"],
       ],
       G3: [
-        ["Dimanche", "08:00–09:30", "MRS – Pr Mezghouni (S43)"],
-        ["Dimanche", "09:30–11:00", "MRS – Pr Mezghouni (S43)"],
-        ["Dimanche", "11:00–12:30", "Didactique – Dr Ghouli (S43)"],
+        ["Dimanche", "08:00–09:30", "MRS – Pre Mezghouni (S 40)"],
+        ["Dimanche", "09:30–11:00", "MRS – Pre Mezghouni (S 43)"],
+        ["Dimanche", "11:00–12:30", "Didactique – Dr Ghouli (S 42)"],
         ["Dimanche", "12:30–14:00", "CIV – Pr Mesbahi (Cours AMPHI A)"],
+
         ["Lundi", "08:00–09:30", "Didactique – Dr Ghouli (Cours AMPHI A)"],
-        ["Lundi", "09:30–11:00", "Littérature – Dre Chihani (Cours AMPHI A)"],
-        ["Lundi", "12:30–14:00", "Littérature – Dre Chihani (S43)"],
-        ["Lundi", "14:00–15:30", "CIV – Pr Mesbahi (S43)"],
-        ["Mardi", "09:30–11:00", "Atelier – Dre Chihani (S43)"],
-        ["Mardi", "12:30–14:00", "CEO – Dre Badi K (S43)"],
-        ["Mercredi", "08:00–09:30", "Linguistique – Mme Kobbi (S43)"],
-        ["Mercredi", "09:30–11:00", "Langue de spé – Dr Chemmar (S43)"],
-        ["Mercredi", "12:30–14:00", "Traduction – M. Ferhat (Cours AMPHI A)"],
-        ["Jeudi", "08:00–09:30", "Traduction – M. Ferhat (S43)"],
-        ["Jeudi", "11:00–12:30", "Linguistique – Mme Kobbi (Cours AMPHI A)"],
-        ["Jeudi", "12:30–14:00", "Entrepreneuriat (cours à distance – Dr. Miloudi)"],
+        ["Lundi", "09:30–11:00", "CIV – Pr Mesbahi (S 43)"],
+        ["Lundi", "11:00–12:30", "Atelier – Dre Chihani (S 43)"],
+        ["Lundi", "12:30–14:00", "Littérature – Dre Chihani (S 42)"],
+
+        ["Mardi", "08:00–09:30", "Littérature – Dre Chihani (Cours AMPHI A)"],
+        ["Mardi", "09:30–11:00", "Atelier de L – Dre Chihani (S 42)"],
+
+        ["Mercredi", "08:00–09:30", "Linguistique – Mme Kobbi (S 43)"],
+        ["Mercredi", "09:30–11:00", "C.E.O – Dre Adaika (S 43)"],
+        ["Mercredi", "11:00–12:30", "Langue de spé – Dr Chemmar (S 43)"],
+        ["Mercredi", "12:30–14:00", "Linguistique – M. Leghrissi (Cours AMPHI A)"],
+        ["Mercredi", "14:00–15:30", "Entreprenariat – Dr Adaika (Cours à distance)"],
       ],
     };
 
@@ -106,7 +108,6 @@
       Lundi:    { background: 'bg-orange-100', text: 'text-orange-800' },
       Mardi:    { background: 'bg-sky-100', text: 'text-sky-800' },
       Mercredi: { background: 'bg-emerald-100', text: 'text-emerald-800' },
-      Jeudi:    { background: 'bg-slate-200', text: 'text-slate-700' },
     };
 
     function renderGroupButtons(rootEl) {
@@ -194,10 +195,15 @@
           const slotDiv = document.createElement('div');
           slotDiv.className = 'flex flex-col sm:flex-row items-start sm:items-center gap-2 p-3 border-t border-slate-200';
           const timeP = document.createElement('div');
-          timeP.className = 'text-xs font-medium text-slate-600 w-24';
+          timeP.className = 'text-xs font-medium text-slate-600 w-24 flex-shrink-0';
           timeP.textContent = time;
           slotDiv.appendChild(timeP);
-          slotDiv.appendChild(CourseCard(course, dc));
+          
+          const cardContainer = document.createElement('div');
+          cardContainer.className = 'w-full';
+          cardContainer.appendChild(CourseCard(course, dc));
+          slotDiv.appendChild(cardContainer);
+          
           daySection.appendChild(slotDiv);
         });
 
